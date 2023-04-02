@@ -9,7 +9,7 @@ import com.example.A2.repository.ProductRepository;
 import com.example.A2.service.ProductService;
 import java.util.List;
 
-import org.checkerframework.checker.units.qual.A;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
