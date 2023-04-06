@@ -13,6 +13,10 @@
         <li class="nav-item acitve">
             <a class="nav-link" (click)="onOpenModal(null, 'stats');getStatisticalRep();"> Get Statistical Report <span class="sr-only">(current)</span></a>
         </li>
+
+        <li class="nav-item acitve">
+            <a class="nav-link" (click)="sortProductsByPrice();">Sort Products <span class="sr-only">(current)</span></a>
+        </li>
      </ul>
      <form class="form-inline my-2 my-lg-0">
         <input type="search" (ngModelChange)="filterProducts(key.value)" #key="ngModel" ngModel

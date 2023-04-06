@@ -111,5 +111,9 @@ export class AppComponent implements OnInit {
     );
   }
 
+  public sortProductsByPrice() : void {
+    this.products = this.products.sort((a, b) => a.price - b.price);
+  }
+
 
 }
