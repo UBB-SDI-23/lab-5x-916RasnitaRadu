@@ -1,9 +1,6 @@
 package com.example.A2.api;
 
-import com.example.A2.domain.dto.CustomerResponse;
-import com.example.A2.domain.dto.ProductResponse;
-import com.example.A2.domain.dto.ReviewRequest;
-import com.example.A2.domain.dto.ReviewResponse;
+import com.example.A2.domain.dto.*;
 import com.example.A2.service.ReviewService;
 import com.example.A2.domain.Review;
 
@@ -28,7 +25,7 @@ public class ReviewController {
     @GetMapping(path = "/{id}")
     public ReviewResponse findReviewById(@PathVariable Long id) { return service.get(id);}
 
-    @GetMapping(path="/")
+    @GetMapping(path="/all")
     public List<ReviewResponse> getAllReviews() { return service.getAll();}
 
     @PostMapping(path = "/")
@@ -42,13 +39,13 @@ public class ReviewController {
         service.deleteService(id);
     }
 
-    @PatchMapping(path = "/{id}")
-    public void update(@PathVariable Long id, @RequestBody @Valid Review review) {
+    @PutMapping(path = "/{id}")
+    public void update(@PathVariable Long id, @RequestBody @Valid ReviewRequest review) {
         service.updateService(id, review);
     }
 
     @GetMapping(path = "/statProd")
-    public List<Map.Entry<ProductResponse, Double>> getStatsProd() {
+    public List<ProductResponseLikes> getStatsProd() {
         return service.getStatisticalReportProducts();
     }
 

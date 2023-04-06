@@ -35,7 +35,7 @@ public class ProductController {
         return ResponseEntity.ok(productDTO.get());
     }
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/all")
     public List<ProductResponse> getAllProducts()
     {
         return service.getAll();
@@ -56,9 +56,9 @@ public class ProductController {
         service.deleteService(id);
     }
 
-    @PatchMapping(path = "/{id}")
-    public void update(@PathVariable Long id,@RequestBody @Valid Product newProduct) {
-        service.updateService(id,newProduct);
+    @PutMapping(path = "/")
+    public ProductResponse update(@RequestBody @Valid ProductRequest newProduct) {
+        return service.updateService(newProduct);
     }
 
     @GetMapping(path = "/filter/{price}")

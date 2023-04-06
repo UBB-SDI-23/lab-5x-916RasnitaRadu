@@ -8,10 +8,12 @@ import com.example.A2.domain.dto.CustomerWithReviewDTO;
 import com.example.A2.domain.dto.ReviewRequest;
 import com.example.A2.domain.mappers.CustomerMapper;
 import com.example.A2.repository.CustomerRepository;
+import com.example.A2.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,8 @@ public class CustomerService  {
     private final CustomerRepository customerRepository;
 
     private final CustomerMapper customerMapper;
+
+    private final ReviewRepository reviewRepository;
 
 
     public CustomerWithReviewDTO get(Long id) {
@@ -82,12 +86,37 @@ public class CustomerService  {
         customerRepository.save(customer);
     }
 
-    public HashMap<Customer, List<Review>> getCustomerWithList(Long id)
+    public void addReviewsService(Long id, List<Long> reviews)
     {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new IllegalStateException("There is no such entity in the database."));
-        List<Review> reviews = customer.getReviewList();
-        HashMap<Customer, List<Review>> result = new HashMap<>();
-        result.put(customer, reviews);
-        return result;
+        int min;
+        Customer customer = customerRepository.findById(id).
+                orElseThrow(() -> new IllegalStateException("There is no such entity in the database"));
+        List<Review> customerReviewList = customer.getReviewList();
+        List<Review> newReviewList = new ArrayList<>();
+
+        if (reviews.size() <= customerReviewList.size())
+        {
+            min = reviews.size();
+        }
+        else { min = customerReviewList.size(); }
+
+        for (int i = 0; i < min; i++) {
+            if (reviewRepository.existsById(reviews.get(i))) {
+                Review review = customerReviewList.get(i);
+                Review newReview = new Review();
+                newReview.setId(reviews.get(i));
+                newReview.setCustomer(review.getCustomer());
+                newReview.setProduct(review.getProduct());
+                newReview.setReviewText(review.getReviewText());
+                newReview.setCreatedAt(review.getCreatedAt());
+                newReview.setNumberLikes(review.getNumberLikes());
+                newReviewList.add(newReview);
+                customerReviewList.remove(review);
+                reviewRepository.delete(review);
+            }
+        }
+        customer.setReviewList(newReviewList);
+
+        customerRepository.save(customer);
     }
 }

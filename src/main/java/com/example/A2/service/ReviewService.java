@@ -4,10 +4,7 @@ import com.example.A2.domain.Customer;
 import com.example.A2.domain.Product;
 import com.example.A2.domain.Review;
 
-import com.example.A2.domain.dto.CustomerResponse;
-import com.example.A2.domain.dto.ProductResponse;
-import com.example.A2.domain.dto.ReviewRequest;
-import com.example.A2.domain.dto.ReviewResponse;
+import com.example.A2.domain.dto.*;
 import com.example.A2.domain.mappers.CustomerMapper;
 import com.example.A2.domain.mappers.ProductMapper;
 import com.example.A2.domain.mappers.ReviewMapper;
@@ -84,13 +81,15 @@ public class ReviewService {
     }
 
 
-    public void updateService(Long id, Review entity) {
+    public void updateService(Long id, ReviewRequest entity) {
         Review review = reviewRepository.findById(id).
                 orElseThrow(() -> new IllegalStateException("There is no such entity in the database"));
 
-        //review.setClientId(entity.getClientId());
+        Customer customer = customerRepository.getReferenceById(entity.getIdCustomer());
+        Product product = productRepository.getReferenceById(entity.getIdProduct());
+        review.setProduct(product);
+        review.setCustomer(customer);
         review.setReviewText(entity.getReviewText());
-      //  review.setProductId(entity.getProductId());
         review.setCreatedAt(entity.getCreatedAt());
         review.setNumberLikes(entity.getNumberLikes());
 
@@ -111,10 +110,10 @@ public class ReviewService {
 
     // show all the products ordered by the average of their review likes
     // for each product => avg(reviewLikes)
-    public List<Map.Entry<ProductResponse, Double>> getStatisticalReportProducts()
+    public List<ProductResponseLikes> getStatisticalReportProducts()
     {
         List<Product> products = productRepository.findAll();
-        HashMap<ProductResponse, Double> result = new HashMap<>();
+        List<ProductResponseLikes> result = new ArrayList<>();
 
         List<Review> reviews = reviewRepository.findAll();
         for (Product p : products)
@@ -127,15 +126,17 @@ public class ReviewService {
                     count++;
                 }
             }
-            ProductResponse pr = productMapper.map(p);
+            ProductResponseLikes pr = new ProductResponseLikes();
+            pr.setId(p.getId());
+            pr.setName(p.getName());
             if (s > 0 && count > 0)
             {
                 Double avg = s / count;
-                result.put(pr, avg);
+                pr.setLikes(avg);
+                result.add(pr);
             }
         }
-        List<Map.Entry<ProductResponse, Double>> rez = sort(result);
-        return rez;
+        return result;
     }
 
 
@@ -173,5 +174,17 @@ public class ReviewService {
         nlist.sort(Map.Entry.comparingByValue());
 
         return nlist;
+    }
+
+    private ReviewRequest convertReviewDTO(Review review)
+    {
+        ReviewRequest reviewIdDTO = new ReviewRequest();
+        reviewIdDTO.setId(review.getId());
+        reviewIdDTO.setIdCustomer(review.getCustomer().getId());
+        reviewIdDTO.setIdProduct(review.getProduct().getId());
+        reviewIdDTO.setCreatedAt(review.getCreatedAt());
+        reviewIdDTO.setReviewText(review.getReviewText());
+        reviewIdDTO.setNumberLikes(review.getNumberLikes());
+        return reviewIdDTO;
     }
 }

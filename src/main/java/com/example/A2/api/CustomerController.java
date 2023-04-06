@@ -31,7 +31,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerDTO);
     }
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/all")
     public List<CustomerResponse> getAllCustomers() {
         return service.getAll();
     }
@@ -47,20 +47,18 @@ public class CustomerController {
         service.deleteService(id);
     }
 
-    @PatchMapping(path = "/{id}")
+    @PutMapping(path = "/{id}")
     public void update(@PathVariable Long id, @RequestBody @Valid Customer newCustomer) {
         service.updateService(id,newCustomer);
     }
 
-    private ReviewRequest convertReviewDTO(Review review)
+    @PatchMapping(path = "/{id}/review")
+    public void addReviews(@PathVariable Long id ,@RequestBody NumberRequest reviewIdList)
     {
-        ReviewRequest reviewIdDTO = new ReviewRequest();
-        reviewIdDTO.setId(review.getId());
-        reviewIdDTO.setIdCustomer(review.getCustomer().getId());
-        reviewIdDTO.setIdProduct(review.getProduct().getId());
-        reviewIdDTO.setCreatedAt(review.getCreatedAt());
-        reviewIdDTO.setReviewText(review.getReviewText());
-        reviewIdDTO.setNumberLikes(review.getNumberLikes());
-        return reviewIdDTO;
+        List<Long> reviews = reviewIdList.getNumbers();
+        service.addReviewsService(id, reviews);
     }
+
+
+
 }

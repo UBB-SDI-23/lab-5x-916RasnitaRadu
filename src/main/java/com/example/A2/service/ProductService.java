@@ -65,16 +65,18 @@ public class ProductService {
         }
     }
 
-    public void updateService(Long id, Product entity) {
-        Product searchedProduct = productRepository.findById(entity.getId()).
-                orElseThrow( () -> new IllegalStateException("The product is not in the data base"));
+    public ProductResponse updateService(ProductRequest entity) {
+//        Product searchedProduct = productRepository.findById(entity.getId()).
+//                orElseThrow( () -> new IllegalStateException("The product is not in the data base"));
+//
+//        searchedProduct.setName(entity.getName());
+//        searchedProduct.setColor(entity.getColor());
+//        searchedProduct.setPrice(entity.getPrice());
+//        searchedProduct.setDescription(entity.getDescription());
+        Product product = productMapper.map(entity);
 
-        searchedProduct.setName(entity.getName());
-        searchedProduct.setColor(entity.getColor());
-        searchedProduct.setPrice(entity.getPrice());
-        searchedProduct.setDescription(entity.getDescription());
-
-        productRepository.save(searchedProduct);
+        productRepository.save(product);
+        return productMapper.map(product);
     }
 
     public List<ProductResponse> findProductsPriceHigherThanService(double price)

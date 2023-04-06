@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ public class Customer {
     @Min(value = 18, message = "The age must be at least 18")
     private Integer age;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},mappedBy = "customer")
     private List<Review> reviewList;
 
 }
