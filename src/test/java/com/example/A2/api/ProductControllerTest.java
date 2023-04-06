@@ -43,34 +43,14 @@ class ProductControllerTest {
     @InjectMocks
     private ProductController productController;
 
+    List<ProductResponse> resultExpected = new ArrayList<>();
+
     @BeforeEach
     void setUp()
     {
-//        productController.addProduct(new ProductRequest(1L,"Proteine",100.9,"ceva de genu", "alb", "suplimente"));
-//        productController.addProduct(new ProductRequest(2L, "Creatina", 80.9, "creatina sa te faci mare", "alb", "suplimente"));
-//        productController.addProduct(new ProductRequest(3L, "BCAA", 80.9, "pastile sa dai pe gat","alb","suplimente"));
-//        productController.addProduct(new ProductRequest(4L, "Hanorac", 190.9, "Hanorac bravo", "alb", "Imbracaminte"));
-//        productController.addProduct(new ProductRequest(5L, "Hanorac", 175.9, "Hanorac bravo", "gri", "Imbracaminte"));
-//        productController.addProduct(new ProductRequest(6L, "Hanorac", 200.9, "Hanorac bravo", "albastru", "Imbracaminte"));
-//        productController.addProduct(new ProductRequest(7L, "Hanorac", 220.9, "Hanorac bravo", "negru", "Imbracaminte"));
-//        productController.addProduct(new ProductRequest(8L, "Shaker", 30.9, "Shaker jmk", "negru", "Accesorii"));
-//        productController.addProduct(new ProductRequest(9L, "Shaker cu bila", 50.9, "Shaker jmk cu bila", "negru", "Accesorii"));
-//        productController.addProduct(new ProductRequest(10L, "Manusi sala", 55.9, "Manusi sa nu fac bataturi", "negru", "Accesorii"));
-//        productController.addProduct(new ProductRequest(11L, "CURIA", 189.9, "CURIA sa nu-ti rupi schinarea", "negru", "Accesorii"));
-
         productService = Mockito.mock(ProductService.class);
         productController = new ProductController(productService);
 
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-
-    }
-
-    @Test
-    void findProductsPriceHigherThan() {
-        List<ProductResponse> resultExpected = new ArrayList<>();
         ProductResponse product1 = new ProductResponse();
         product1.setId(4L);
         product1.setPrice(190.9);
@@ -105,7 +85,17 @@ class ProductControllerTest {
         resultExpected.add(product3);
         resultExpected.add(product4);
 
-        when(productService.findProductsPriceHigherThanService(100)).thenReturn(List.of(product1,product2,product3,product4));
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+
+    }
+
+    @Test
+    void findProductsPriceHigherThan() {
+
+        when(productService.findProductsPriceHigherThanService(100)).thenReturn(resultExpected);
 
         List<ProductResponse> result = productController.findProductsPriceHigherThan(100);
         Assertions.assertEquals(4, result.size());

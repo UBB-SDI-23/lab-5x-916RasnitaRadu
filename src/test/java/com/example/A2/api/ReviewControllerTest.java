@@ -23,16 +23,14 @@ class ReviewControllerTest {
     @InjectMocks
     private ReviewController reviewController;
 
+    private List<ProductResponseLikes> resultExpected = new ArrayList<>();
+
     @BeforeEach
     public void setUp()
     {
         reviewService = Mockito.mock(ReviewService.class);
         reviewController = new ReviewController(reviewService);
-    }
 
-    @Test
-    void getStatsProd() {
-        List<ProductResponseLikes> resultExpected = new ArrayList<>();
         ProductResponseLikes product1 = new ProductResponseLikes();
         product1.setId(2L);
 
@@ -97,7 +95,10 @@ class ReviewControllerTest {
         product7.setLikes(1000.0);
 
         resultExpected.add(product7);
+    }
 
+    @Test
+    void getStatsProd() {
         when(reviewController.getStatsProd()).thenReturn(resultExpected);
         assertEquals(8, resultExpected.size());
         List<ProductResponseLikes> result = reviewController.getStatsProd();
