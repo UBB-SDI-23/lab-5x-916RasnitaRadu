@@ -27,9 +27,7 @@ export class AppComponent implements OnInit {
       (response : Product[]) => {
         this.products = response;
       },
-      // (error: HttpErrorResponse) => {
-      //   alert(error.message);
-      // }
+
     );
   }
 

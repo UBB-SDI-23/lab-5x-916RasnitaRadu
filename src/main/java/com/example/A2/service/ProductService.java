@@ -53,7 +53,14 @@ public class ProductService {
 
 
     public List<ProductResponse> getAll() {
-        return productMapper.map(productRepository.findAll());
+        List<Product> productList = new ArrayList<>();
+        Long i;
+        for (i = 1L ; i <= 100L; i++)
+        {
+            Product prod = productRepository.findProductById(i);
+            productList.add(prod);
+        }
+        return productMapper.map(productList);
     }
 
     public void deleteService(Long id)
@@ -66,13 +73,6 @@ public class ProductService {
     }
 
     public ProductResponse updateService(ProductRequest entity) {
-//        Product searchedProduct = productRepository.findById(entity.getId()).
-//                orElseThrow( () -> new IllegalStateException("The product is not in the data base"));
-//
-//        searchedProduct.setName(entity.getName());
-//        searchedProduct.setColor(entity.getColor());
-//        searchedProduct.setPrice(entity.getPrice());
-//        searchedProduct.setDescription(entity.getDescription());
         Product product = productMapper.map(entity);
 
         productRepository.save(product);

@@ -6,7 +6,7 @@ import { Entry } from './Entry';
 
 @Injectable({ providedIn: 'root'})
 export class ProductService {
-  private apiServerUrl = 'http://localhost:80';
+  private apiServerUrl = 'http://100.25.199.234:80';
 
   constructor(private http : HttpClient) { }
 
@@ -36,7 +36,6 @@ export class ProductService {
 
   public getStatisticalReportProduct() : Observable<{id : number, name: string, likes  : number }[]> {
     return this.http.get<{id : number, name: string, likes  : number }[]>(`${this.apiServerUrl}/review/statProd`);
-    
   }
 
 }

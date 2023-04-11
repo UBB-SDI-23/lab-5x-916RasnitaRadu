@@ -38,7 +38,7 @@ public class Customer {
     @Min(value = 18, message = "The age must be at least 18")
     private Integer age;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
     private List<Review> reviewList;
 
 }
