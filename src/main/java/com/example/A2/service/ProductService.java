@@ -55,7 +55,7 @@ public class ProductService {
     public List<ProductResponse> getAll() {
         List<Product> productList = new ArrayList<>();
         Long i;
-        for (i = 1L ; i <= 100L; i++)
+        for (i = 1L ; i <= 50L; i++)
         {
             Product prod = productRepository.findProductById(i);
             productList.add(prod);
