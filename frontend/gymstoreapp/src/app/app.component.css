@@ -1,0 +1,13 @@
+
+.paginations {
+    color: #707070;
+    border: 1px solid;
+    border-radius: 100px;
+    width: 100px;
+ }
+
+.pg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

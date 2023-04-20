@@ -50,7 +50,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/statCust")
-    public List<Map.Entry<CustomerResponse, Double>> getStatsCust() {
+    public List<CustomerResponseLikes> getStatsCust() {
         return service.getStatisticalReportCustomers();
     }
 }

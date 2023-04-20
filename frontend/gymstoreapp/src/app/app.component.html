@@ -1,7 +1,20 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="app.component.css" rel="stylesheet">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a href="app.component.html" class="navbar-brand" style="color:white;">Product Manager</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+   <div class="btn-group">
+      <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       Select
+      </button>
+      <div class="dropdown-menu">
+         <a class="dropdown-item" routerLink="product" routerLinkActive="active">Products</a>
+         <a class="dropdown-item" href="#">Customers</a>
+         <a class="dropdown-item" href="#">Reviews</a>
+         <div class="dropdown-divider"></div>
+         <a class="dropdown-item" href="#">Separated link</a>
+      </div>
+   </div>
+
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarColor02">
@@ -22,7 +35,7 @@
         <input type="search" (ngModelChange)="filterProducts(key.value)" #key="ngModel" ngModel
         name="key" id="filterProducts"class="form-control mr-sm-2" placeholder="Filter products by price" required>
      </form>
-  </div>
+  </div> 
 </nav>
 
 
@@ -54,7 +67,7 @@
         </div>
 
         
-        <!-- Add Employee Modal -->
+       
         <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -96,7 +109,7 @@
           </div>
           </div>
 
-          <!-- Edit Modal -->
+         
          <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="productEditModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                <div class="modal-content">
@@ -185,8 +198,14 @@
             </div>
            </div> 
            
+           
+           <div class="pg">
 
-
+            <div>
+               <button (click)="changePage(this.currentPage + 1)" class="paginations"> Next </button>
+            </div>
+            <div *ngIf="this.currentPage > 1"  class="col-lg-12 col-md-12 col-xl-12"> <button (click)="changePage(this.currentPage - 1)" class="paginations"> Prev </button></div>
+            </div>   
 
           <div *ngIf="products?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
             <div class="alert alert-info" role="alert">
@@ -200,4 +219,4 @@
 
 
     </div>
-</div>
+</div> 

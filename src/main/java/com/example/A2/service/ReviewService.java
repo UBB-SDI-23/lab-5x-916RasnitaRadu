@@ -141,10 +141,10 @@ public class ReviewService {
 
 
     // how all the customers ordered by the average of their review likes
-    public List<Map.Entry<CustomerResponse, Double>> getStatisticalReportCustomers()
+    public List<CustomerResponseLikes> getStatisticalReportCustomers()
     {
         List<Customer> customers = customerRepository.findAll();
-        HashMap<CustomerResponse, Double> result = new HashMap<>();
+        List<CustomerResponseLikes> result = new ArrayList<>();
 
         List<Review> reviews = reviewRepository.findAll();
         for (Customer customer : customers)
@@ -157,34 +157,19 @@ public class ReviewService {
                     count++;
                 }
             }
-            CustomerResponse customerResponse = customerMapper.map(customer);
+            CustomerResponseLikes customerResponse = new CustomerResponseLikes();
+            customerResponse.setId(customer.getId());
+            customerResponse.setFirstName(customer.getFirstName());
+            customerResponse.setLastName(customer.getLastName());
             if (sum > 0 && count > 0)
             {
                 Double avg = sum / count;
-                result.put(customerResponse, avg);
+                customerResponse.setLikes(avg);
+                result.add(customerResponse);
             }
         }
-        List<Map.Entry<CustomerResponse, Double>> entryList = new ArrayList<>(result.entrySet());
-        entryList.sort(Map.Entry.comparingByValue());
-        return entryList;
+        return result;
     }
 
-    private List<Map.Entry<ProductResponse, Double>> sort(HashMap<ProductResponse, Double> map) {
-        List<Map.Entry<ProductResponse, Double>> nlist = new ArrayList<>(map.entrySet());
-        nlist.sort(Map.Entry.comparingByValue());
 
-        return nlist;
-    }
-
-    private ReviewRequest convertReviewDTO(Review review)
-    {
-        ReviewRequest reviewIdDTO = new ReviewRequest();
-        reviewIdDTO.setId(review.getId());
-        reviewIdDTO.setIdCustomer(review.getCustomer().getId());
-        reviewIdDTO.setIdProduct(review.getProduct().getId());
-        reviewIdDTO.setCreatedAt(review.getCreatedAt());
-        reviewIdDTO.setReviewText(review.getReviewText());
-        reviewIdDTO.setNumberLikes(review.getNumberLikes());
-        return reviewIdDTO;
-    }
 }

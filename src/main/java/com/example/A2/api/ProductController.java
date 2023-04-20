@@ -6,6 +6,9 @@ import com.example.A2.domain.dto.ProductResponse;
 import com.example.A2.domain.dto.ProductWithReviewDTO;
 import com.example.A2.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +39,12 @@ public class ProductController {
     }
 
     @GetMapping(path = "/all")
-    public List<ProductResponse> getAllProducts()
+    public @ResponseBody Page<ProductResponse> getAllProducts(@RequestParam Integer pageNumber, @RequestParam
+                                                              @Min(value=4, message = "Page size should be at least 4")
+                                                              @Max(value=10, message = "Page size should be at most 10" )
+                                                              Integer pageSize)
     {
-        return service.getAll();
+        return service.getAll(pageNumber, pageSize);
     }
 
 

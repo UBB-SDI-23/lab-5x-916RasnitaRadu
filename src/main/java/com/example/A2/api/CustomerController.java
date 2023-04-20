@@ -4,7 +4,10 @@ import com.example.A2.domain.Review;
 import com.example.A2.domain.dto.*;
 import com.example.A2.service.CustomerService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +35,11 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/all")
-    public List<CustomerResponse> getAllCustomers() {
-        return service.getAll();
+    public @ResponseBody Page<CustomerResponse> getAllCustomers(@RequestParam Integer pageNumber, @RequestParam
+    @Min(value=4, message = "Page size should be at least 4")
+    @Max(value=10, message = "Page size should be at most 10" )
+    Integer pageSize) {
+        return service.getAll(pageNumber, pageSize);
     }
 
     @PostMapping(path = "/")

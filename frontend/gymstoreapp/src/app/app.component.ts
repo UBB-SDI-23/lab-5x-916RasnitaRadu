@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from './product';
+import { Product } from './model/product';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ProductService } from './product.service';
+import { ProductService } from './services/product.service';
 import { NgForm } from '@angular/forms';
-import { Entry } from './Entry';
+import { Entry } from './model/Entry';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,6 +15,8 @@ export class AppComponent implements OnInit {
   public editProduct : Product;
   public deleteProduct : Product;
   public stats :{id : number, name: string, likes  : number }[];
+  public currentPage : number = 1;
+  public totalPages : number = 0;
 
   constructor(private productService : ProductService) { }
 
@@ -23,9 +25,10 @@ export class AppComponent implements OnInit {
   }
 
   public getProducts() : void {
-    this.productService.getAllProducts().subscribe(
-      (response : Product[]) => {
-        this.products = response;
+    this.productService.getAllProducts(this.currentPage, 10).subscribe(
+      response => {
+        this.products = response.content;
+        this.totalPages = response.totalPages;
       },
 
     );
@@ -64,10 +67,7 @@ export class AppComponent implements OnInit {
         this.getProducts();
         addForm.reset();
       },
-      // (error : HttpErrorResponse) => {
-      //   alert(error.message);
-      //   addForm.reset();
-      // }
+
       );
   }
 
@@ -113,5 +113,11 @@ export class AppComponent implements OnInit {
     this.products = this.products.sort((a, b) => a.price - b.price);
   }
 
+  public changePage(pageNumber : number) : void {
+    pageNumber = Math.max(pageNumber, 0);
+    pageNumber = Math.min(pageNumber, this.totalPages - 1);
+    this.currentPage = pageNumber;
+    this.getProducts();
+  }
 
 }

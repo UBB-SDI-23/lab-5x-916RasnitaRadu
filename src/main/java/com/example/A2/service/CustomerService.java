@@ -11,6 +11,8 @@ import com.example.A2.repository.CustomerRepository;
 import com.example.A2.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -59,8 +61,8 @@ public class CustomerService  {
     }
 
 
-    public List<CustomerResponse> getAll() {
-        return customerMapper.map(customerRepository.findAll());
+    public Page<CustomerResponse> getAll(Integer pageNumber, Integer pageSize) {
+        return customerRepository.findAll(PageRequest.of(pageNumber, pageSize)).map(CustomerResponse::fromCustomer);
     }
 
 

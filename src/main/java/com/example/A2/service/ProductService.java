@@ -7,8 +7,11 @@ import com.example.A2.domain.dto.ProductWithReviewDTO;
 import com.example.A2.domain.dto.ReviewRequest;
 import com.example.A2.domain.mappers.ProductMapper;
 import com.example.A2.repository.ProductRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -52,15 +55,8 @@ public class ProductService {
     }
 
 
-    public List<ProductResponse> getAll() {
-        List<Product> productList = new ArrayList<>();
-        Long i;
-        for (i = 1L ; i <= 50L; i++)
-        {
-            Product prod = productRepository.findProductById(i);
-            productList.add(prod);
-        }
-        return productMapper.map(productList);
+    public Page<ProductResponse> getAll(Integer pageNumber, Integer pageSize) {
+        return productRepository.findAll(PageRequest.of(pageNumber, pageSize)).map(ProductResponse::fromProduct);
     }
 
     public void deleteService(Long id)
