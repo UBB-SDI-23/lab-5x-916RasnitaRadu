@@ -4,5 +4,6 @@ export interface Customer {
     lastName : string,
     email : string,
     address : string,
-    age : number
+    age : number,
+    numberReviews : number
 }

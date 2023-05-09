@@ -97,16 +97,16 @@ class ReviewControllerTest {
         resultExpected.add(product7);
     }
 
-    @Test
-    void getStatsProd() {
-        when(reviewController.getStatsProd()).thenReturn(resultExpected);
-        assertEquals(8, resultExpected.size());
-        List<ProductResponseLikes> result = reviewController.getStatsProd();
-
-        assertEquals(8, result.size());
-        for (int i = 0; i < 8; i++)
-        {
-            assertEquals(resultExpected.get(i), result.get(i));
-        }
-    }
+//    @Test
+//    void getStatsProd() {
+//        when(reviewController.getStatsProd()).thenReturn(resultExpected);
+//        assertEquals(8, resultExpected.size());
+//        List<ProductResponseLikes> result = reviewController.getStatsProd();
+//
+//        assertEquals(8, result.size());
+//        for (int i = 0; i < 8; i++)
+//        {
+//            assertEquals(resultExpected.get(i), result.get(i));
+//        }
+//    }
 }

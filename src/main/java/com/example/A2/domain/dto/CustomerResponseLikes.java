@@ -11,4 +11,13 @@ public class CustomerResponseLikes {
     private String lastName;
 
     private Double likes;
+
+    public CustomerResponseLikes(Long id, String firstName, String lastName, Double likes) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.likes = likes;
+    }
+
+    public CustomerResponseLikes() {}
 }

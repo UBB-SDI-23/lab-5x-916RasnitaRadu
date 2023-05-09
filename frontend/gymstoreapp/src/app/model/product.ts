@@ -5,4 +5,5 @@ export interface Product {
     description: string;
     color: string;
     category: string;
+    nrReviews: number;
 }

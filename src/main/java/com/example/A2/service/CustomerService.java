@@ -74,8 +74,8 @@ public class CustomerService  {
     }
 
 
-    public void updateService(Long id, Customer entity) {
-        Customer customer = customerRepository.findById(id).
+    public CustomerResponse updateService(CustomerRequest entity) {
+        Customer customer = customerRepository.findById(entity.getId()).
                 orElseThrow(() -> new IllegalStateException("There is no such entity in the database"));
 
         customer.setFirstName(entity.getFirstName());
@@ -83,9 +83,9 @@ public class CustomerService  {
         customer.setAge(entity.getAge());
         customer.setEmail(entity.getEmail());
         customer.setAddress(entity.getAddress());
-        customer.setReviewList(entity.getReviewList());
 
         customerRepository.save(customer);
+        return CustomerResponse.fromCustomer(customer);
     }
 
     public void addReviewsService(Long id, List<Long> reviews)

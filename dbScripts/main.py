@@ -45,7 +45,7 @@ def insert_into_product():
     file.write("DELETE FROM \"product\";\n")
     batches = ""
     counter = itertools.count(start=1)
-    print("STARTING INSERTING INTO CUSTOMER AT TIME: ", Fore.YELLOW + str(datetime.datetime.now()))
+    print("STARTING INSERTING INTO PRODUCT AT TIME: ", Fore.YELLOW + str(datetime.datetime.now()))
     for index in range(NR_GENERATIONS):
         pid = next(counter)
 
@@ -69,7 +69,7 @@ def insert_into_product():
 def insert_into_customer():
     global customer_ids
     file = open("InsertCustomer.sql", "w")
-    file.write("DELETE FROM \"product\";\n")
+    file.write("DELETE FROM \"customer\";\n")
     counter = itertools.count(start=1)
     batches = ""
     print("STARTING INSERTING INTO CUSTOMER AT TIME: ", Fore.YELLOW + str(datetime.datetime.now()))

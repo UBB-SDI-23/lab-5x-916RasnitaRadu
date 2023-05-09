@@ -53,9 +53,9 @@ public class CustomerController {
         service.deleteService(id);
     }
 
-    @PutMapping(path = "/{id}")
-    public void update(@PathVariable Long id, @RequestBody @Valid Customer newCustomer) {
-        service.updateService(id,newCustomer);
+    @PutMapping(path = "/")
+    public CustomerResponse update(@RequestBody @Valid CustomerRequest newCustomer) {
+        return service.updateService(newCustomer);
     }
 
     @PatchMapping(path = "/{id}/review")

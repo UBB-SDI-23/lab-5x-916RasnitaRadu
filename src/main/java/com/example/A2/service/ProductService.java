@@ -7,7 +7,7 @@ import com.example.A2.domain.dto.ProductWithReviewDTO;
 import com.example.A2.domain.dto.ReviewRequest;
 import com.example.A2.domain.mappers.ProductMapper;
 import com.example.A2.repository.ProductRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.example.A2.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -75,13 +75,14 @@ public class ProductService {
         return productMapper.map(product);
     }
 
-    public List<ProductResponse> findProductsPriceHigherThanService(double price)
+    public Page<ProductResponse> findProductsPriceHigherThanService(Double price, Integer pageNumber, Integer pageSize)
     {
-        List<Product> result = new ArrayList<>();
-        for (Product p : productRepository.findAll())
-        {
-            if (p.getPrice() > price) result.add(p);
-        }
-        return productMapper.map(result);
+        return productRepository.findAll(ProductSpecification.priceHigherThan(price),PageRequest.of(pageNumber,pageSize)).map(ProductResponse::fromProduct);
+//        List<Product> result = new ArrayList<>();
+//        for (Product p : productRepository.findAll())
+//        {
+//            if (p.getPrice() > price) result.add(p);
+//        }
+//        return productMapper.map(result);
     }
 }

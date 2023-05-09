@@ -68,8 +68,11 @@ public class ProductController {
     }
 
     @GetMapping(path = "/filter/{price}")
-    public List<ProductResponse> findProductsPriceHigherThan(@PathVariable double price)
+    public Page<ProductResponse> findProductsPriceHigherThan(@PathVariable double price, @RequestParam Integer pageNumber, @RequestParam
+    @Min(value=4, message = "Page size should be at least 4")
+    @Max(value=10, message = "Page size should be at most 10" )
+    Integer pageSize)
     {
-        return service.findProductsPriceHigherThanService(price);
+        return service.findProductsPriceHigherThanService(price,pageNumber,pageSize);
     }
 }

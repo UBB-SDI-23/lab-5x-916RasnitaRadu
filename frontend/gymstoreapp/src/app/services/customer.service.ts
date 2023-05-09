@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { GenericPageDTO } from '../model/genericPageDTO';
 import { Observable, tap } from 'rxjs';
 import { Customer } from '../model/customer';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root'})
 export class CustomerService {
-    private apiServerUrl = 'http://localhost:80'
-
+    private apiServerUrl = environment.apiBaseUrl;
+    
     constructor(private http : HttpClient) { }
 
     public getAllCustomers(pageNumber: number, pageSize : number): Observable<GenericPageDTO<Customer>> {
@@ -30,7 +31,7 @@ export class CustomerService {
         return this.http.delete<void>(`${this.apiServerUrl}/customer/${customerId}`);
       }
 
-    //   public getStatisticalReportCustomer() : Observable<{id : number, name: string, likes  : number }[]> {
-    //     return this.http.get<{id : number, name: string, likes  : number }[]>(`${this.apiServerUrl}/review/statCust`);
-    //   }
+      public getStatisticalReportCustomer(pageNumber : number, pageSize :number) : Observable<GenericPageDTO<{id : number, firstName: string,lastName : string, likes  : number }>> {
+        return this.http.get<GenericPageDTO<{id : number, firstName: string,lastName : string, likes  : number }>>(`${this.apiServerUrl}/review/statCust` + `?pageNumber=${pageNumber}`+  `&pageSize=${[pageSize]}`);
+      }
 }

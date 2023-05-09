@@ -9,4 +9,12 @@ public class ProductResponseLikes  {
     private String name;
 
     private Double likes;
+
+    public ProductResponseLikes(Long id, String name, Double likes) {
+        this.id= id;
+        this.name = name;
+        this.likes = likes;
+    }
+
+    public ProductResponseLikes() {}
 }

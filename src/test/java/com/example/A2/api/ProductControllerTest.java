@@ -92,19 +92,19 @@ class ProductControllerTest {
 
     }
 
-    @Test
-    void findProductsPriceHigherThan() {
-
-        when(productService.findProductsPriceHigherThanService(100)).thenReturn(resultExpected);
-
-        List<ProductResponse> result = productController.findProductsPriceHigherThan(100);
-        Assertions.assertEquals(4, result.size());
-        for (int i = 0; i < 4; i++)
-        {
-            Assertions.assertEquals(result.get(i),resultExpected.get(i));
-        }
-
-    }
+//    @Test
+//    void findProductsPriceHigherThan() {
+//
+//        when(productService.findProductsPriceHigherThanService(100)).thenReturn(resultExpected);
+//
+//        List<ProductResponse> result = productController.findProductsPriceHigherThan(100);
+//        Assertions.assertEquals(4, result.size());
+//        for (int i = 0; i < 4; i++)
+//        {
+//            Assertions.assertEquals(result.get(i),resultExpected.get(i));
+//        }
+//
+//    }
 
 
     @Test

@@ -31,6 +31,7 @@ public class Review {
 
     private String createdAt;
 
+    @Column(name = "numberLikes")
     private Integer numberLikes;
 
 }
