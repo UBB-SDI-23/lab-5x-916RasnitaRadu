@@ -4,7 +4,8 @@ import { Review } from 'src/app/model/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -17,7 +18,7 @@ export class ReviewComponent extends AbstractPageContainerComponent{
 
 
 
-  constructor(private reviewService : ReviewService, router : Router, activatedRoute : ActivatedRoute)
+  constructor(private toastr : ToastrService,private reviewService : ReviewService, router : Router, activatedRoute : ActivatedRoute)
   {
     super(router, activatedRoute);
   }
@@ -75,8 +76,17 @@ export class ReviewComponent extends AbstractPageContainerComponent{
     this.reviewService.addReview(addForm.value).subscribe(
       (response : Review) => {
         console.log(response);
+        this.toastr.success("Review added successfully!");
         this.getReviews();
         addForm.reset();
+
+      },
+      (error : HttpErrorResponse) => {
+        for (const property in error.error)
+        {
+          const message = error.error[property];
+          this.toastr.error(message, "An error ocurred!");
+        }
       }
 
     );
@@ -86,7 +96,15 @@ export class ReviewComponent extends AbstractPageContainerComponent{
     this.reviewService.updateReview(review).subscribe(
       (response : Review) => {
         console.log(response);
+        this.toastr.success("Review updated successfully!");
         this.getReviews();
+      },
+      (error : HttpErrorResponse) => {
+        for (const property in error.error)
+        {
+          const message = error.error[property];
+          this.toastr.error(message, "An error ocurred!");
+        }
       }
     );
   }
@@ -95,7 +113,15 @@ export class ReviewComponent extends AbstractPageContainerComponent{
     this.reviewService.deleteReview(reviewId).subscribe(
       (response : void) => {
         console.log(response);
+        this.toastr.success("Review deleted successfully!");
         this.getReviews();
+      },
+      (error : HttpErrorResponse) => {
+        for (const property in error.error)
+        {
+          const message = error.error[property];
+          this.toastr.error(message, "An error ocurred!");
+        }
       }
     );
   }

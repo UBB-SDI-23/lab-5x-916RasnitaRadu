@@ -19,7 +19,7 @@ public class ReviewRequest {
     private Long idCustomer;
 
     @NotNull(message = "The ID of the Product can not be null")
-    @Size(min=1, message = "The ID of the Customer must be a valid number")
+    @Min(value=1, message = "The ID of the Customer must be a valid number")
     private Long idProduct;
 
     @NotBlank(message = "Please enter the review")
